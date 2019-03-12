@@ -1,0 +1,70 @@
+Load the “breast-cancer-wisconsin.data.csv” from canvas into R and perform the EDA analysis by:
+Summarizing each column (e.g. min, max, mean 
+Identifying missing values
+Replacing the missing values with the “mean” of the column
+Displaying the frequency table of “Class” vs. F6V.Displaying the scatter plot of F1 to F6, one pair at a time
+Show histogram box plot for columns F7 to F9
+
+Code:
+---
+title: "EDA"
+author: "Yash"
+date: "10/10/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r}
+Breast_cancer <- read.csv('/Users/yash/downloads/breast-cancer-wisconsin.data.csv')
+Breast_cancer1 <- read.csv('/Users/yash/downloads/breast-cancer-wisconsin.data.csv',header=TRUE,na.strings=c("","?","NA"))
+
+colSums(is.na(Breast_cancer1))
+
+min <- apply(Breast_cancer1,2,min,na.rm = TRUE)
+min
+max <- apply(Breast_cancer1,2,max,na.rm = TRUE)
+max
+mean <- apply(Breast_cancer1,2,mean,na.rm = TRUE)
+mean
+
+summary (Breast_cancer1, na.rm= TRUE)
+
+Mean_f6 <- colMeans(Breast_cancer1, na.rm=TRUE)
+index <- which(is.na(Breast_cancer1), arr.ind=TRUE)
+index
+Breast_cancer1[index] <- Mean_f6[index[,2]]
+levels(Breast_cancer1$f6)
+
+attach(Breast_cancer1)
+table<-table(F6,Class)
+
+margin.table(table,1)
+margin.table(table,2)
+prop.table(table) 
+prop.table(table, 1)  
+prop.table(table, 2)
+
+plot(Breast_cancer1[,2:7])
+boxplot(Breast_cancer1[,8:10], horizontal=FALSE, axes= TRUE)
+
+
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
