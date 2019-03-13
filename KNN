@@ -1,0 +1,92 @@
+4.1 Using knn (k=2), EXCEL and the following training and test datasets, predict the species for the test datasets. What is the error rate? DO NOT normalize the data. You can copy and paste the tables into excel.Test Data SetSepal.LengthSepal.WidthPetal.LengthPetal.WidthSpecies5.43.91.70.4setosa5.72.84.51.3virginica7.636.62.1virginicaTraining DatasetSepal.LengthSepal.WidthPetal.LengthPetal.WidthSpecies5.13.51.40.2setosa4.931.40.2setosa4.73.21.30.2setosa4.63.11.50.2setosa53.61.40.2setosa53.31.40.2setosa73.24.71.4versicolor6.43.24.51.5versicolor6.93.14.91.5versicolor5.52.341.3versicolor6.52.84.61.5versicolor5.72.84.11.3versicolor6.33.362.5virginica5.82.75.11.9virginica7.135.92.1virginica6.32.95.61.8virginica6.535.82.2virginica
+4.2 Load the “breast-cancer-wisconsin.data.csv” into R/Python from CANVAS (see the description bellow) 
+a.  Remove the rows with missing values
+b.  Store every fifth record in a “test” dataset starting with the first record
+c.   Store the rest in the “training” dataset
+d.  Use knn with k=1 and classify the test dataset
+e. Measure the performance of knn
+f.   Repeat the above steps with k=2, k=5, k=10.
+
+---
+title: "KNN"
+author: "Yash"
+date: "10/16/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+Data import
+```{r}
+Test_data <- read.csv("/Users/yash/CS513/Test_data.csv",header=TRUE,na.strings=c("","?","na"))
+Train_data <- read.csv("/Users/yash/CS513/Train_data.csv",header=TRUE,na.strings=c("","?","na"))
+```
+
+K=2 given
+KNN
+```{r}
+prediction <- knn(Train_data[,-5],Test_data[,-5],Train_data[,5],k=2)
+table(prediction,Test_data[,5])
+## error_rate<-(round(mean(Test_data[,5]!=prediction)*100,2)) -- error level set are different because no. of rows and no. of column in table are different.
+Verify<-c(prediction)==c(Test_data[,5])
+error_rate<-(1-sum(Verify)/length(Verify))*100
+cat(error_rate,"%")
+
+```
+
+#4.2 
+
+```{r}
+
+Breast_Cancer<-read.csv("/Users/yash/CS513/breast-cancer-wisconsin.data.csv", na.strings=c("","?","na"))
+##699 rows
+Breast_Cancer<-na.omit(Breast_Cancer)
+##683 rows left after removing rows with missing values
+
+Index <- seq(1,nrow((Breast_Cancer)),by=5)
+##Storing every 5th record starting with the first record
+Test <- Breast_Cancer[Index,]
+Train <- Breast_Cancer[-Index,]
+##Sampled data into test and train as mentioned in 4.2) b and c.
+
+
+prediction_1 <- knn(Train[,2:10],Test[,2:10],Train[,11],k=1)
+table(prediction_1,Test[,11])
+error_1=round(mean(Test[,11]!=prediction_1)*100,2)
+cat( error_1,"%")
+
+prediction_2 <- knn(Train[,2:10],Test[,2:10],Train[,11],k=2)
+table(prediction_2,Test[,11])
+error_2=round(mean(Test[,11]!=prediction_2)*100,2)
+cat ( error_2,"%")
+
+
+prediction_5 <- knn(Train[,2:10],Test[,2:10],Train[,11],k=5)
+table(prediction_5,Test[,11])
+error_5=round(mean(Test[,11]!=prediction_5)*100,2)
+cat(error_5,"%")
+
+
+prediction_10 <- knn(Train[,2:10],Test[,2:10],Train[,11],k=10)
+table(prediction_10,Test[,11])
+error_10=round(mean(Test[,11]!=prediction_10)*100,2)
+cat(error_10,"%")
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
