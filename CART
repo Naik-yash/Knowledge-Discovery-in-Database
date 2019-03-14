@@ -1,0 +1,64 @@
+Apply rpart in R or Python to the “IBM Employee Attrition V2” dataset in CANVAS to uncover the features that can predict employee attrition. 
+This is a subset of a fictional data set created by IBM data scientists. 
+Use every 5threcord to create the test dataset and use the remaining records to create the training dataset.
+Do not normalize the data. 
+
+---
+title: "CART06"
+author: "Yash"
+date: "11/13/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+IBM <- read.csv('/Users/yash/downloads/IBM_Employee_Attrition_V2.csv',header=TRUE,na.strings=c("","?","NA"))
+IBM$MaritalStatus <- as.numeric(factor(IBM$MaritalStatus,
+                                        levels=sort(unique(IBM$MaritalStatus))))
+IBM$BusinessTravel <- as.numeric(factor(IBM$BusinessTravel,
+                                        levels=sort(unique(IBM$BusinessTravel))))
+IBM$Gender <- as.numeric(factor(IBM$Gender,
+                                        levels=sort(unique(IBM$Gender))))
+IBM$OverTime <- as.numeric(factor(IBM$OverTime,
+                                        levels=sort(unique(IBM$OverTime))))
+
+
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+ibm.new =seq(0, nrow(IBM), 5) #indexing
+test <- IBM[ibm.new,]
+#test <- IBM[seq(0, nrow(IBM), by = 5),]
+train  <- IBM[-ibm.new,]
+require(rpart)
+require(rpart.plot)
+CART <- rpart (Attrition ~ !EmployeeID, train)
+
+length(CART)
+
+rpart.plot(CART)
+
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r}
+test_pred <- predict(CART,test,type="class")
+table(Actual=test$Attrition,Prediction=test_pred)
+
+
+
+
+```
