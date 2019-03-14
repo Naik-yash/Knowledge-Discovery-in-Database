@@ -1,0 +1,132 @@
+Consider the data in Table above (end of chapter 6 or 8). The target variable is salary. Start by discretizing salary and age as follows: Less than $35,000                      Level 1 $35,000 to less than $45,000   Level 2  $45,000 to less than $55,000   Level 3  Above $55,000                             Level 40   – 30                                               <= 3031 - 40                                               <= 40Above 40                                           <= 505.1 Construct a classification and regression tree to classify salary based on the other variables only one split level.Hint: you may want to set up the excel file like the followingSplitPLPRLevelP( j |tL )P( j |tR)2PL PRQ(s|t)Φ(s|t)10.2730.727L10.3330.1250.3970.5830.231L20.3330.250L30.3330.375L40.0000.25025.
+construct a C4.5 decision tree to classify salary based on the other variables. 
+Age Criteria- Category1 -  <= 30	Salary Criteria- Level1- <35000							
+Category2- 30< Age <=40 	Level2- 35000 <= salary <45000							
+Category3- >40	level3- 45000 <= salary <55000							
+	Level4 - >=55000							
+								
+								
+Occupation	Gender	Age	Age Category	Salary	Salary Level			
+Service	Female	45	Category 3	$48,000 	Level 3			
+Service	Male	25	Category 1	$25,000 	Level 1			
+Service	Male	33	Category 2	$35,000 	Level 2			
+Management	Male	25	Category 1	$45,000 	Level 3			
+Management	Female	35	Category 2	$65,000 	Level 4			
+Management	Male	26	Category 1	$45,000 	Level 3			
+Management	Female	45	Category 3	$70,000 	Level 4			
+Sales	Female	40	Category 2	$50,000 	Level 3			
+Sales	Male	30	Category 1	$40,000 	Level 2			
+Staff	Female	50	Category 3	$40,000 	Level 2			
+Staff	Male	25	Category 1	$25,000 	Level 1			
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+Split	PL	PR	Level	P( j |tL )	P( j |tR)	2PL PR	Q(s|t)	Φ(s|t)
+Occupation = Service	0.273	0.727	L1	0.333	0.125	0.397	0.583	0.231
+			L2	0.333	0.250			
+			L3	0.333	0.375			
+			L4	0.000	0.250			
+Occupation = Management	0.364	0.636	L1	0.000	0.286	0.463	1.429	0.661
+			L2	0.000	0.429			
+			L3	0.500	0.286			
+			L4	0.500	0.000			
+Occupation = Sales	0.182	0.818	L1	0.000	0.222	0.298	0.889	0.264
+			L2	0.500	0.222			
+			L3	0.500	0.333			
+			L4	0.000	0.222			
+Occupation = Staff	0.182	0.818	L1	0.500	0.111	0.298	1.333	0.397
+			L2	0.500	0.222			
+			L3	0.000	0.444			
+			L4	0.000	0.222			
+Occupation = Service Management	0.636	0.364	L1	0.143	0.250	0.463	0.929	0.430
+			L2	0.143	0.500			
+			L3	0.429	0.250			
+			L4	0.286	0.000			
+Occupation = Service Sales	0.455	0.545	L1	0.200	0.167	0.496	0.666	0.330
+			L2	0.400	0.167			
+			L3	0.400	0.333			
+			L4	0.000	0.333			
+Occupation = Service Staff	0.455	0.545	L1	0.400	0.000	0.496	1.266	0.628
+			L2	0.400	0.167			
+			L3	0.200	0.500			
+			L4	0.000	0.333			
+Age <=30	0.455	0.545	L1	0.400	0.000	0.496	0.933	0.463
+			L2	0.200	0.333			
+			L3	0.400	0.333			
+			L4	0.000	0.333			
+Age<=40	0.273	0.727	L1	0.000	0.250	0.397	0.583	0.231
+			L2	0.333	0.250			
+			L3	0.333	0.375			
+			L4	0.333	0.125			
+Age<=50	0.273	0.727	L1	0.000	0.250	0.397	0.583	0.231
+			L2	0.333	0.250			
+			L3	0.333	0.375			
+			L4	0.333	0.125			
+Male	 0.545 	 0.455 	L1	 0.333 	 -   	 0.496 	 0.933 	 0.463 
+			L2	 0.333 	 0.200 			
+			L3	 0.333 	 0.400 			
+			L4	 -   	 0.400 			
+Female	 0.455 	 0.545 	L1	 -   	 0.333 	 0.496 	 0.933 	 0.463 
+			L2	 0.200 	 0.333 			
+			L3	 0.400 	 0.333 			
+			L4	 0.400 	 -   			
+								
+Answer: The first CART node is Occupation = Management which is 0.6612								
+
+
+
+
+
+
+C4.5
+Entropy:	Levels 	Pj	-Pj*log(Pj)						
+	1	0.181818182	0.447169385						
+	2	0.272727273	0.51121885						
+	3	0.363636364	0.530702407						
+	4	0.181818182	0.447169385						
+		SUM	1.936260028						
+									
+Variable	Variable Levels	Salary Levels	Pj	 - (Pj* log(Pj)	Row Total	Percent	Pct * Row total 	Total	Gain
+Occupation	Service	Level 1	0.333	0.528	1.585	0.273	0.432	1.160	-1.160
+		Level 2	0.333	0.528					
+		Level 3	0.333	0.528					
+		Level 4	0.000	0.000					
+	Management	Level 1	0.000	0.000	1.000	0.364	0.364		
+		Level 2	0.000	0.000					
+		Level 3	0.500	0.500					
+		Level 4	0.500	0.500					
+	Sales	Level 1	0.000	0.000	1.000	0.182	0.182		
+		Level 2	0.500	0.500					
+		Level 3	0.500	0.500					
+		Level 4	0.000	0.000					
+	Staff	Level 1	0.500	0.500	1.000	0.182	0.182		
+		Level 2	0.500	0.500					
+		Level 3	0.000	0.000					
+		Level 4	0.000	0.000					
+Age	<=30	Level 1	0.400	0.529	1.522	0.455	0.692	1.556	 (1.556)
+		Level 2	0.200	0.464					
+		Level 3	0.400	0.529					
+		Level 4	0.000	0.000					
+	<=40	Level 1	0.000	0.000	1.585	0.273	0.432		
+		Level 2	0.333	0.528					
+		Level 3	0.333	0.528					
+		Level 4	0.333	0.528					
+	<=50	Level 1	0.000	0.000	1.585	0.273	0.432		
+		Level 2	0.333	0.528					
+		Level 3	0.333	0.528					
+		Level 4	0.333	0.528					
+Gender	Male	Level 1	0.333	0.528	1.585	0.545	0.865	1.556	 (1.556)
+		Level 2	0.333	0.528					
+		Level 3	0.333	0.528					
+		Level 4	0.000	0.000					
+	Female	Level 1	0.000	0.000	1.522	0.455	0.692		
+		Level 2	0.200	0.464					
+		Level 3	0.400	0.529					
+		Level 4	0.400	0.529					
